@@ -1,0 +1,175 @@
+@startuml
+
+hide circle
+top to bottom direction
+!define ENTITY(entityName) class entityName << Entity >>
+!define AGGREGATE(aggregateName) class aggregateName << Aggregate >>
+!define AGGREGATE_ROOT(aggregateRootName) class aggregateRootName << Aggregate Root >>
+!define AGGREGATE_ROOT_ENTITY(aggregateRootEntityName) class aggregateRootEntityName << Aggregate Root >> << Entity >>
+!define VALUE_OBJECT(valueObjectName) class valueObjectName << Value Object >>
+!pragma useVerticalIf on
+skinparam dpi 350
+skinparam packageStyle rectangle
+skinparam rectangle {
+    BackgroundColor #f7f4eb
+    BorderColor Black
+}
+
+Package "Order-service" <<Rectangle>> #CCFFEA {
+    Package "Order subdomain" <<Rectangle>> #CCFFFF {
+
+        AGGREGATE_ROOT_ENTITY(Order) #lightblue {
+            orderDate : String
+        }
+
+        VALUE_OBJECT(OrderIdentifier) #Bisque{
+            orderId: UUID
+        }
+
+        VALUE_OBJECT(Status) #Bisque{
+            PENDING : Enum
+            PROCESSING : Enum
+            SHIPPED : Enum
+            DELIVERED : Enum
+        }
+
+        VALUE_OBJECT(ProductIdentifier) #Bisque{
+                productId: UUID
+        }
+
+        VALUE_OBJECT(DepartmentIdentifier) #Bisque{
+            departementId : UUID
+        }
+
+        VALUE_OBJECT(EmployeeIdentifier) #Bisque{
+            employeeId: UUID
+        }
+
+        VALUE_OBJECT(CustomerIdentifier) #Bisque{
+            customerId: UUID
+        }
+
+        note right of Order #lightblue
+            Constraint: Product Stock > 0
+        end note
+    }
+}
+
+    Order --> OrderIdentifier
+    Order --> Status
+    Order --> CustomerIdentifier
+    Order --> EmployeeIdentifier
+    Order --> DepartmentIdentifier
+    Order --> ProductIdentifier
+
+Package "Product-service" <<Rectangle>> #E6E6D1 {
+    Package "Product subdomain" <<Rectangle>> #E6E6E6 {
+
+        ENTITY(Product) #lightgray {
+            productName : String
+            category : String
+            price : Double
+            stock : Integer
+            productDescription : String
+        }
+
+        VALUE_OBJECT(Brand) #Bisque{
+            NIKE : Enum
+            ADIDAS : Enum
+            PUMA : Enum
+            REEBOK : Enum
+        }
+    }
+}
+
+    Product --> ProductIdentifier
+    Product --> Brand
+
+Package "Employee-service" <<Rectangle>> #E6E6D1 {
+    Package "Human resource subdomain" <<Rectangle>> #E6E6E6 {
+
+        ENTITY(Departement) #lightgray{
+            name : String
+            headCount : Integer
+        }
+
+        VALUE_OBJECT(Position) #Bisque{
+            title : String
+            code : String
+        }
+
+        ENTITY(Employee) #lightgray {
+            firstName : String
+            lastName : String
+            emailAddress : String
+            commissionRate : Double
+            positionTitle : String
+        }
+
+
+        VALUE_OBJECT(AddressE) #Bisque{
+            streetAddress : String
+            city : String
+            province : String
+            country : String
+            postalCode : String
+        }
+
+        VALUE_OBJECT(PhoneNumber) #Bisque{
+            number : String
+        }
+
+        VALUE_OBJECT(PhoneType) #Bisque{
+            HOME : Enum
+            WORK : Enum
+            MOBILE : Enum
+        }
+
+        VALUE_OBJECT(Salary) #Bisque{
+            salary : BigDecimal
+        }
+
+        VALUE_OBJECT(CurrencyType) #Bisque{
+            AUD : Enum
+            CAD : Enum
+            EUR : Enum
+            GBP : Enum
+            JPY : Enum
+            USD : Enum
+        }
+    }
+}
+
+    Employee --> EmployeeIdentifier
+    Employee --> AddressE
+    Employee --> "1..*" PhoneNumber
+    Employee --> Salary
+    PhoneNumber --> PhoneType
+    Salary --> CurrencyType
+    Employee --> DepartmentIdentifier
+    Departement --> DepartmentIdentifier
+    Departement --> "1..*" Position
+
+Package "Customer-service" <<Rectangle>> #E6E6D1 {
+    Package "Customer subdomain" <<Rectangle>> #E6E6E6 {
+
+        ENTITY(Customer) #lightgray {
+            firstName: String
+            lastName: String
+            emailAddress: String
+        }
+
+        VALUE_OBJECT(Address) #Bisque{
+            streetAddress : String
+            city : String
+            province : String
+            country : String
+            postalCode : String
+        }
+    }
+}
+
+    Customer --> CustomerIdentifier
+    Customer --> Address
+
+@enduml

@@ -1,0 +1,43 @@
+server:
+  error:
+    include-message: always
+  port: 7004
+logging:
+  level:
+    root: INFO
+    com.haikel: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+# for docker
+spring:
+  application:
+    name: order-service
+  datasource:
+    url: jdbc:mysql://mysql_server4/order-db
+    username: user
+    password: secretpwd
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+  config:
+    activate:
+      on-profile: docker
+
+  sql:
+    init:
+      platform: mysql
+      mode: always
+
+app:
+  customer-service:
+    host: customer-service
+    port: 7001
+  employee-service:
+    host: employee-service
+    port: 7002
+  product-service:
+    host: product-service
+    port: 7003

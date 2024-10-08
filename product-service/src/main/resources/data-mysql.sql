@@ -1,0 +1,10 @@
+ insert into products(product_id, product_name, category, brand, price, stock, product_description) values(1, 'T-Shirt', 'sportswear', 'NIKE', 24.99, 5, 'Long sleeve sports t-shirt');
+ insert into products(product_id, product_name, category, brand, price, stock, product_description) values(2, 'Jogger', 'sportswear', 'PUMA', 15.99, 10, 'Cuffed joggers');
+ insert into products(product_id, product_name, category, brand, price, stock, product_description) values(3, 'Hoodie', 'sportswear', 'ADIDAS', 39.99, 8, 'Pullover hoodie');
+ insert into products(product_id, product_name, category, brand, price, stock, product_description) values(4, 'Running Shoes', 'footwear', 'NIKE', 79.99, 3, 'High-performance running shoes');
+ insert into products(product_id, product_name, category, brand, price, stock, product_description) values(5, 'Track Pants', 'sportswear', 'PUMA', 29.99, 7, 'Comfortable track pants');
+ insert into products(product_id, product_name, category, brand, price, stock, product_description) values(6, 'Sweatshirt', 'sportswear', 'ADIDAS', 49.99, 4, 'Classic logo sweatshirt');
+ insert into products(product_id, product_name, category, brand, price, stock, product_description) values(7, 'Training Shoes', 'footwear', 'NIKE', 89.99, 2, 'Versatile training shoes');
+ insert into products(product_id, product_name, category, brand, price, stock, product_description) values(8, 'Sports Bra', 'activewear', 'PUMA', 19.99, 6, 'Supportive sports bra');
+ insert into products(product_id, product_name, category, brand, price, stock, product_description) values(9, 'Windbreaker', 'outerwear', 'ADIDAS', 59.99, 3, 'Lightweight windbreaker jacket');
+ insert into products(product_id, product_name, category, brand, price, stock, product_description) values(10, 'Gym Bag', 'accessories', 'PUMA', 34.99, 5, 'Spacious gym bag with multiple compartments');

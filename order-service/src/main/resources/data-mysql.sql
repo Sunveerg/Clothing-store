@@ -1,0 +1,1 @@
+insert into `orders` (order_id, order_date, status, department_id, employee_id, product_id, customer_id, first_name, last_name, commission_rate, name, headCount, product_name, product_stock) values ('5', '5', 'PENDING', '1', '1', '1', 'c3540a89-cb47-4c96-888e-ff96708db4d8', 'john', 'doe', 3.6, 'manager', 1, 'T-Shirt', 1);

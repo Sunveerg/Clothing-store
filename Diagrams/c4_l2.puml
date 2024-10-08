@@ -1,0 +1,70 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Container.puml
+
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+
+!include FONTAWESOME/users.puml
+
+AddElementTag("microService", $shape=EightSidedShape(), $bgColor="CornflowerBlue", $fontColor="white", $legendText="micro service\neight sided")
+AddElementTag("storage", $shape=RoundedBoxShape(), $bgColor="lightSkyBlue", $fontColor="white")
+AddRelTag(aggregate_root, $lineColor="red")
+AddRelTag(service_to_db, $lineColor="green")
+
+LAYOUT_TOP_DOWN()
+'LAYOUT_WITH_LEGEND()
+SHOW_PERSON_OUTLINE()
+'HIDE_STEREOTYPE()
+
+title Container Diagram for Clothing Store System
+
+
+Person(customer, "Customer", "Customers buying from the clothing store.")
+Person(employee, "Employee", "Employees that work at the clothing store.")
+
+System_Boundary(clothingstore, "Clothing Store System") {
+    Container(webapp, "Web Application", "JavaScript, React", "Delivers the static content and the clothing store single page application to the customer's browser.")
+    Container(singlepage_app, "Single-Page Application", "JavaScript, React", "Provides the clothing store's functionality to customers and employees.")
+    Container(api_gateway, "API-Gateway", "Java, Spring Boot", "Provides the clothing store's functionality to customers and employees via a JSON/REST HTTPS API.")
+    Container(order_service, "order_service", "Java, Spring Boot", "Provides order functionality using the aggregator pattern via a JSON/REST HTTPS API.", $tags = "microService")
+    Container(customer_service, "customer_service", "Java, Spring Boot", "Provides customer functionality via a JSON/REST HTTPS API.", $tags = "microService")
+    Container(employee_service, "employee_service", "Java, Spring Boot", "Provides employee functionality via a JSON/REST HTTPS API.", $tags = "microService")
+    Container(product_service, "product_service", "Java, Spring Boot", "Provides product functionality via a JSON/REST HTTPS API.", $tags = "microService")
+    ContainerDb(order_db, "Order DB", "MySQL 5.5.x", "Stores order information.", $tags = "storage")
+    ContainerDb(customers_db, "Customers DB", "MySQL 5.5.x", "Stores customer information.", $tags = "storage")
+    ContainerDb(employees_db, "Employees DB", "MySQL 5.5.x", "Stores employee information.", $tags = "storage")
+    ContainerDb(products_db, "Products DB", "Postgres", "Stores product information.", $tags = "storage")
+
+    Rel(customer, webapp, "Visits clothingstore.com using", "HTTPS")
+    Rel_R(webapp, singlepage_app, "Delivers to the user's browser")
+    Rel(customer, singlepage_app, "Buy products through the platform", "HTTPS")
+    Rel(singlepage_app, api_gateway, "Makes API calls to", "JSON/REST/HTTPS")
+
+    'API-services relations
+    Rel(api_gateway, employee_service, "Makes API calls to", "JSON/REST/HTTPS")
+    Rel(api_gateway, customer_service, "Makes API calls to", "JSON/REST/HTTPS")
+    Rel(api_gateway, product_service, "Makes API calls to", "JSON/REST/HTTPS")
+    Rel(api_gateway, order_service, "Makes API calls to", "JSON/REST/HTTPS")
+
+    'aggregateservice-services relations
+    Rel("order_service", customer_service, "Makes API calls to", "JSON/REST/HTTPS", $tags = "aggregate_root")
+    Rel("order_service", employee_service, "Makes API calls to", "JSON/REST/HTTPS", $tags = "aggregate_root")
+    Rel("order_service", product_service, "Makes API calls to", "JSON/REST/HTTPS", $tags = "aggregate_root")
+
+
+    'services-DB relations
+    Rel_D(employee_service, employees_db, "Reads from and writes to", "JDBC", $tags = "service_to_db")
+    Rel_D(customer_service, customers_db, "Reads from and writes to", "JDBC", $tags = "service_to_db")
+    Rel_D(product_service, products_db, "Reads from and writes to", "JDBC", $tags = "service_to_db")
+    Rel_R("order_service", order_db, "Reads from and writes to", "JDBC", $tags = "service_to_db")
+
+    'Relations for the employee persona
+    Rel(employee, webapp, "Accesses the system to sell products", "HTTPS")
+    Rel(employee, singlepage_app, "Works for the clothing store", "HTTPS")
+
+
+
+}
+
+'SHOW_LEGEND()
+@enduml

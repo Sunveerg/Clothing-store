@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: api-gateway
+  config:
+    activate:
+      on-profile: docker
+server:
+  port: 8080
+  error:
+    include-message: always
+
+app:
+  customer-service:
+    host: customer-service
+    port: 7001
+  employee-service:
+    host: employee-service
+    port: 7002
+  product-service:
+    host: product-service
+    port: 7003
+  order-service:
+    host: order-service
+    port: 7004

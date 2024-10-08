@@ -1,0 +1,15 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Context.puml
+
+title System Context Diagram for Clothing Store Web Application
+
+Person(customer, "Customer", "Customer using the store to purchase products.")
+Person(employee, "Employee", "Helps the customer to buy the product and other tasks.")
+
+System(clothing_store, "Clothing Store App", "Allows customers to buy clothing products.")
+
+Rel(customer, clothing_store, "Buys products through the platform", "Uses")
+Rel(employee, clothing_store, "Participates in the sale of products", "Uses")
+
+'SHOW_LEGEND()
+@enduml
