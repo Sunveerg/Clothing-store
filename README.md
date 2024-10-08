@@ -13,6 +13,8 @@ docker compose up
 
 ```
 
+### Stopping the project
+
 ```bash
 CTRL + C
 
